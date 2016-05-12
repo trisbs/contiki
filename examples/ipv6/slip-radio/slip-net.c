@@ -40,7 +40,6 @@
 #define SLIP_ESC_ESC 0335
 
 #define DEBUG 0
-
 /*---------------------------------------------------------------------------*/
 void
 slipnet_init(void)
@@ -72,10 +71,19 @@ void
 slipnet_input(void)
 {
   int i;
+  static int slip_last_rssi = 0x8000000;
   /* radio should be configured for filtering so this should be simple */
   /* this should be sent over SLIP! */
   /* so just copy into uip-but and send!!! */
   /* Format: !R<data> ? */
+
+  /* get rssi */
+
+  if(slip_last_rssi != (signed short)packetbuf_attr(PACKETBUF_ATTR_RSSI)) {
+    slip_last_rssi = (signed short)packetbuf_attr(PACKETBUF_ATTR_RSSI);
+    printf("LRSSI%d#", slip_last_rssi);
+  }
+  
   uip_len = packetbuf_datalen();
   i = packetbuf_copyto(uip_buf);
 
