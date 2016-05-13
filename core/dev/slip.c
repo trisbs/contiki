@@ -258,7 +258,7 @@ PROCESS_THREAD(slip_process, ev, data)
     PROCESS_YIELD_UNTIL(ev == PROCESS_EVENT_POLL);
     
     slip_active = 1;
-
+    leds_toggle(LEDS_YELLOW); // TODO...
     /* Move packet from rxbuf to buffer provided by uIP. */
     uip_len = slip_poll_handler(&uip_buf[UIP_LLH_LEN],
 				UIP_BUFSIZE - UIP_LLH_LEN);
